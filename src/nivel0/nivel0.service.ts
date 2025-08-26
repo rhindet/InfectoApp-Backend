@@ -15,4 +15,8 @@ export class Nivel0Service {
     return this.nivel0Model.find().lean().exec();
   }
 
+  findAllTema() {
+    return this.nivel0Model.find().select('nombre').lean().exec(); 
+  }
+
 }

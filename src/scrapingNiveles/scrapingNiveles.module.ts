@@ -16,18 +16,24 @@ import { Nivel3Schema } from 'src/nivel3/nivel3.schema';
 import { Nivel3 } from 'src/nivel3/nivel3.schema';
 import { Nivel3Controller } from 'src/nivel3/nivel3.controller';
 import { Nivel3Service } from 'src/nivel3/nivel3.service';
+import { Nivel0Controller } from 'src/nivel0/nivel0.controller';
+import { Nivel0Service } from 'src/nivel0/nivel0.service';
+import { Nivel0Schema } from 'src/nivel0/nivel0.schema';
+import { Nivel0 } from 'src/nivel0/nivel0.schema';
 
 
 @Module({
   imports: [
     MongooseModule.forFeature([
+      { name: Articulo.name, schema: ArticuloSchema,collection: 'Articulos'},
+      { name: Nivel0.name, schema: Nivel0Schema, collection: 'nivel0' },
       { name: Nivel1.name, schema: Nivel1Schema, collection: 'nivel1' },
       { name: Nivel2.name, schema: Nivel2Schema, collection: 'nivel2' },
       { name: Nivel3.name, schema: Nivel3Schema, collection: 'nivel3' },
     ]),  
   ],
-  controllers: [Nivel1Controller,Nivel2Controller,ScrapingNivelesController,Nivel3Controller],
-  providers: [Nivel1Service,Nivel2Service,ScrapingNivelesService,Nivel3Service],
+  controllers: [Nivel1Controller,Nivel2Controller,ScrapingNivelesController,Nivel3Controller,Nivel0Controller,ArticlesController],
+  providers: [Nivel1Service,Nivel2Service,ScrapingNivelesService,Nivel3Service,Nivel0Service,ArticlesService],
   exports: [MongooseModule], 
 })  
 export class ScrapingNivelesModule {}

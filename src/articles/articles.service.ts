@@ -17,6 +17,8 @@ export class ArticlesService {
 
   // Traer uno por id
   async findOne(id: string){
+    console.log("id")
+    console.log(id)
     const ref = Types.ObjectId.isValid(id) ? new Types.ObjectId(id) : id;
     
     const ref_tabla_nivel0 = { ref_tabla_nivel0: ref };

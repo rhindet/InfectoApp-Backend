@@ -5,10 +5,14 @@ import { Model, Types } from 'mongoose';
 import { Nivel1, Nivel1Document } from 'src/nivel1/nivel1.schema';
 import { Nivel2, Nivel2Document } from 'src/nivel2/nivel2.schema';
 import { Nivel3, Nivel3Document } from 'src/nivel3/nivel3.schema';
+import { Nivel0, Nivel0Document } from 'src/nivel0/nivel0.schema';
+import { Articulo ,ArticleDocument } from 'src/articles/schemas/article.schema';
 
 @Injectable()
 export class ScrapingNivelesService {
   constructor(
+    @InjectModel(Articulo.name) private readonly articulosModel: Model<ArticleDocument>,
+    @InjectModel(Nivel0.name) private readonly nivel0Model: Model<Nivel0Document>,
     @InjectModel(Nivel1.name) private readonly nivel1Model: Model<Nivel1Document>,
     @InjectModel(Nivel2.name) private readonly nivel2Model: Model<Nivel2Document>,
     @InjectModel(Nivel3.name) private readonly nivel3Model: Model<Nivel3Document>,
@@ -81,4 +85,24 @@ export class ScrapingNivelesService {
     // Si todos están vacíos → devolver array vacío
     return [];
   }
+
+
+  async findAllTemas() {
+  const [nivel0, nivel1, nivel2, nivel3] = await Promise.all([
+    this.nivel0Model.find().select('nombre').lean().exec(),
+    this.nivel1Model.find().select('nombre').lean().exec(),
+    this.nivel2Model.find().select('nombre').lean().exec(),
+    this.nivel3Model.find().select('nombre').lean().exec(),
+  ]);
+
+  // Un array con 4 arrays adentro
+  return [nivel0, nivel1, nivel2, nivel3];
+} 
+
+
+async createArticle(dto: Articulo) {
+
+  return this.articulosModel.create(dto);
+}
+
 } 

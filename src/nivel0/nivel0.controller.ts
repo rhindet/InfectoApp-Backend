@@ -11,4 +11,9 @@ export class Nivel0Controller {
     return this.service.findAll();
   }
 
+  @Get("/temas0")
+  findAllTema() {
+    return this.service.findAllTema();
+  }
+
 }
