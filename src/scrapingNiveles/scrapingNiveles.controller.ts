@@ -1,5 +1,5 @@
 // src/nivel0/nivel0.controller.ts
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post ,Put} from '@nestjs/common';
 import { ScrapingNivelesService } from './scrapingNiveles.service';
 import { ArticuloSchema } from 'src/articles/schemas/article.schema';
 import { Articulo } from 'src/articles/schemas/article.schema';
@@ -12,6 +12,11 @@ export class ScrapingNivelesController {
   @Post('crearArticulo')
   async createArticle(@Body() dto:Articulo) { 
     return this.service.createArticle(dto);
+  }
+
+  @Put('actualizarArticulo/:id')
+  async updateArticle(@Param('id') id: string,@Body() dto:Articulo) { 
+     return this.service.updateArticle(id,dto);
   }
 
   

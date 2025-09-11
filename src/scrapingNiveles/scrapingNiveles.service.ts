@@ -1,5 +1,5 @@
 // src/nivel0/nivel0.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Nivel1, Nivel1Document } from 'src/nivel1/nivel1.schema';
@@ -105,4 +105,14 @@ async createArticle(dto: Articulo) {
   return this.articulosModel.create(dto);
 }
 
-} 
+  async updateArticle(id: string, dto: Articulo) {
+    const updated = await this.articulosModel.findByIdAndUpdate(
+      id,
+      dto,
+      { new: true, runValidators: true }, // ← importante
+    );
+
+    if (!updated) throw new NotFoundException('Article not found');
+  
+    return updated
+}}

@@ -35,6 +35,14 @@ export class Articulo {
 
   @Prop({
     type: Types.ObjectId,
+    ref: 'Nivel0',
+    default: null,
+    set: toObjectIdOrNull,
+  })
+  ref_tabla_nivel0: Types.ObjectId | null;
+
+  @Prop({
+    type: Types.ObjectId,
     ref: 'Nivel1',
     default: null,
     set: toObjectIdOrNull,

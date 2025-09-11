@@ -15,6 +15,27 @@ export class ArticlesService {
     return this.articuloModel.find().exec();
   }
 
+
+  async deleteOne(id: string){
+ 
+    const ref = Types.ObjectId.isValid(id) ? new Types.ObjectId(id) : id;
+    
+    const res =  this.articuloModel.findByIdAndDelete(id).exec();
+
+    console.log(res)
+        console.log(ref)
+                console.log(id)
+
+
+    
+  return res
+
+  
+  }
+
+
+
+
   // Traer uno por id
   async findOne(id: string){
     console.log("id")

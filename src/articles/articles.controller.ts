@@ -1,4 +1,4 @@
-import { Controller, Get, Param, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, BadRequestException, Delete } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { ArticlesService } from './articles.service';
 import { Articulo } from './schemas/article.schema'; // o tu DTO si lo tienes
@@ -30,10 +30,22 @@ export class ArticlesController {
     return article;
   }
 
+    @Delete('/delete/:id')
+  async deleteOne(@Param('id') id: string){
+   
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('El id no es un ObjectId válido');
+    }
+
+    const article = await this.articlesService.deleteOne(id);
+    
+    if (!article) {
+      throw new NotFoundException(`Artículo ${id} no encontrado`);
+    }
+    return article;
+  }
 
 
-
-  
 
    @Get('/article/:id')
   async findById(@Param('id') id: string){
