@@ -1,4 +1,4 @@
-import { Controller, Get, Param, NotFoundException, BadRequestException, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Param, NotFoundException, BadRequestException, Delete } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { ArticlesService } from './articles.service';
 import { Articulo } from './schemas/article.schema'; // o tu DTO si lo tienes
@@ -7,7 +7,19 @@ import { Articulo } from './schemas/article.schema'; // o tu DTO si lo tienes
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
-  @Get()
+ 
+
+  @Get('/search')
+  async search(
+    @Query('q') q: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    console.log("search")
+    return this.articlesService.searchInContenidosRegex(q, Number(page), Number(limit));
+  }
+
+   @Get()
   async findAll(): Promise<Articulo[]> {
         console.log ("entro2")
 
@@ -16,7 +28,7 @@ export class ArticlesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string){
-    console.log ("entro")
+    console.log ("entro id ")
     // valida ObjectId si usas Mongo 
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('El id no es un ObjectId válido');
@@ -49,7 +61,7 @@ export class ArticlesController {
 
    @Get('/article/:id')
   async findById(@Param('id') id: string){
-    console.log ("entro")
+    console.log ("entro article id ")
     // valida ObjectId si usas Mongo 
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('El id no es un ObjectId válido');
