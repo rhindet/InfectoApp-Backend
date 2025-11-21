@@ -10,7 +10,7 @@ export class Nivel1 {
 
   // RELACIÓN hacia nivel0 (elige un nombre y úsalo en toda la app)
   @Prop({ type: Types.ObjectId, ref: 'Nivel0', index: true })
-  ref_tabla_nivel0: Types.ObjectId;
+  ref_nivel0: Types.ObjectId;
 
   @Prop({ type: Date, default: null })
   fecha_creacion: Date | null;

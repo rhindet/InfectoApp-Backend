@@ -24,6 +24,13 @@ export class ScrapingNivelesController {
   findAllTemas() {
     return this.service.findAllTemas();
   }
+
+  @Post('niveles/temas/crear')
+  createTema(@Body() dto) {
+    console.log(dto)
+    return this.service.createTema(dto);
+  }
+  
   
   @Get(':id/:level')
   findAll(@Param('id') id: string , @Param('level') level: string ) {
