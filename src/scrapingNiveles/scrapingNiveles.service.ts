@@ -7,6 +7,7 @@ import { Nivel2, Nivel2Document } from 'src/nivel2/nivel2.schema';
 import { Nivel3, Nivel3Document } from 'src/nivel3/nivel3.schema';
 import { Nivel0, Nivel0Document } from 'src/nivel0/nivel0.schema';
 import { Articulo, ArticleDocument } from 'src/articles/schemas/article.schema';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class ScrapingNivelesService {
@@ -106,39 +107,52 @@ export class ScrapingNivelesService {
     // Buscar en Nivel0
     if (dto.level === 0) {
       const res = await this.nivel0Model.create({
-          nombre : dto.name,
-          fecha_creacion: now,
-          fecha_modificacion: now,
-        
+        nombre: dto.name,
+        fecha_creacion: now,
+        fecha_modificacion: now,
+
       })
-        return res;
-      }
-
-
-   if (dto.level === 1) {
-      const res = await this.nivel1Model.create({
-          nombre : dto.name,
-          fecha_creacion: now,
-          fecha_modificacion: now,
-          ref_nivel0: new Types.ObjectId(dto.parentId) })
-        return res;
-      }
-
-
-   if (dto.level === 2) {
-      const res = await this.nivel2Model.create({
-          nombre : dto.name,
-          fecha_creacion: now,
-          fecha_modificacion: now,
-      })
-        return res;
-      }
-
-
-      return "Error"
+      return res;
     }
 
- 
+
+    if (dto.level === 1) {
+      const res = await this.nivel1Model.create({
+        nombre: dto.name,
+        fecha_creacion: now,
+        fecha_modificacion: now,
+        ref_nivel0: new Types.ObjectId(dto.parentId)
+      })
+      return res;
+    }
+
+
+    if (dto.level === 2) {
+      const res = await this.nivel2Model.create({
+        nombre: dto.name,
+        fecha_creacion: now,
+        fecha_modificacion: now,
+        ref_tabla1:new Types.ObjectId(dto.parentId)
+      })
+      return res;
+    }
+
+    if (dto.level === 3) {
+      const res = await this.nivel3Model.create({
+        nombre: dto.name,
+        fecha_creacion: now,
+        fecha_modificacion: now,
+        ref_nivel2:new Types.ObjectId(dto.parentId)
+
+      })
+      return res;
+    }
+
+
+    return "Error"
+  }
+
+
 
   async createArticle(dto: Articulo) {
 
@@ -156,4 +170,70 @@ export class ScrapingNivelesService {
 
     return updated
   }
+
+  async updateTheme(id: string, dto: { level: number; name: string }) {
+    const now = new Date();
+
+    if (dto.level === 0) {
+      const updated = await this.nivel0Model.findByIdAndUpdate(
+        id,
+        {
+          nombre: dto.name,
+          fecha_modificacion: now,
+        },
+        { new: true, runValidators: true },
+      ).lean();
+
+      return updated;
+    }
+
+    if (dto.level === 1) {
+      const updated = await this.nivel1Model.findByIdAndUpdate(
+        id,
+        {
+          nombre: dto.name,
+          fecha_modificacion: now,
+        },
+        { new: true, runValidators: true },
+      ).lean();
+
+      return updated;
+    }
+
+    if (dto.level === 2) {
+      const updated = await this.nivel2Model.findByIdAndUpdate(
+        id,
+        {
+          nombre: dto.name,
+          fecha_modificacion: now,
+        },
+        { new: true, runValidators: true },
+      ).lean();
+
+      return updated;
+    }
+
+    if (dto.level === 3) {
+      const updated = await this.nivel3Model.findByIdAndUpdate(
+        id,
+        {
+          nombre: dto.name,
+          fecha_modificacion: now,
+        },
+        { new: true, runValidators: true },
+      ).lean();
+
+      return updated;
+    }
+
+    console.log("No se encontro ningun nivel")
+    return {}
+
+
+
+    // luego manejas level 1, 2, etc...
+  }
+
+
+
 }

@@ -19,7 +19,17 @@ export class ScrapingNivelesController {
      return this.service.updateArticle(id,dto);
   }
 
+  @Put('actualizarThema/:id')
+  async updateTheme(@Param('id') id: string,@Body() dto) { 
+   
+
+     return this.service.updateTheme(id,dto);
+  }
+
   
+  
+
+
    @Get('niveles/temas')
   findAllTemas() {
     return this.service.findAllTemas();

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document ,Types } from 'mongoose';
 
 export type Nivel2Document = Nivel2 & Document;
 
@@ -13,6 +13,11 @@ export class Nivel2 {
 
   @Prop({ type: Date, default: null })
   fecha_modificacion: Date | null;
+
+    // RELACIÓN hacia nivel0 (elige un nombre y úsalo en toda la app)
+      @Prop({ type: Types.ObjectId, ref: 'Nivel1', index: true })
+      ref_tabla1: Types.ObjectId;
+  
 }
 
 export const Nivel2Schema = SchemaFactory.createForClass(Nivel2);
