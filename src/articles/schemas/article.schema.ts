@@ -13,7 +13,13 @@ const toObjectIdOrNull = (v: any): Types.ObjectId | null => {
   return new Types.ObjectId(s);
 };
 
-@Schema({ collection: 'Articulos' })
+@Schema({
+  collection: 'Articulos',
+  timestamps: {
+    createdAt: 'fecha_creacion',
+    updatedAt: 'fecha_modificacion',
+  },
+})
 export class Articulo {
   @Prop({ required: true })
   tema: string;

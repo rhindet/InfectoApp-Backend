@@ -159,20 +159,26 @@ export class ScrapingNivelesService {
     return this.articulosModel.create(dto);
   }
 
-  async updateArticle(id: string, dto: Articulo) {
-    const updated = await this.articulosModel.findByIdAndUpdate(
-      id,
-      dto,
-      { new: true, runValidators: true }, // ← importante
-    );
+async updateArticle(id: string, dto: Articulo) {
+  const updated = await this.articulosModel.findByIdAndUpdate(
+    id,
+    {
+      ...dto,
+      fecha_modificacion: new Date(), 
+    },
+    { new: true, runValidators: true }
+  );
 
-    if (!updated) throw new NotFoundException('Article not found');
+  if (!updated) throw new NotFoundException('Article not found');
 
-    return updated
-  }
-
+  return updated;
+}
   async updateTheme(id: string, dto: { level: number; name: string }) {
     const now = new Date();
+
+    console.log(id)
+    console.log(dto)
+
 
     if (dto.level === 0) {
       const updated = await this.nivel0Model.findByIdAndUpdate(
@@ -227,7 +233,7 @@ export class ScrapingNivelesService {
     }
 
     console.log("No se encontro ningun nivel")
-    return {}
+    return "No se encontro ningun nivel"
 
 
 
