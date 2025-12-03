@@ -13,11 +13,16 @@ async function bootstrap() {
   app.use(json({ limit: bodyLimit }));
   app.use(urlencoded({ extended: true, limit: bodyLimit }));
 
-  app.enableCors({
-    origin: process.env.CORS_ORIGIN || '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
+ app.enableCors({
+  origin: [
+    'https://infecto-app-web-dashboard.vercel.app',
+    'https://infecto-app-web-dashboard-eyeyirwhh-rhindets-projects.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+});
 
   const port = parseInt(process.env.PORT ?? '3000', 10);
   const host = '0.0.0.0'; // <- IMPORTANTE en Render
